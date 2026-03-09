@@ -189,7 +189,8 @@ function parseTime(t) {
   return isNaN(d) ? null : d;
 }
 
-function withinWindow(f) {
+  function withinWindow(f) {
+  if (f.type === 'permit' || f.type === 'inspection') return true;
   const t = parseTime(f.time);
   if (!t) return true;
   return t >= new Date(Date.now() - activeHours * 3600 * 1000);
