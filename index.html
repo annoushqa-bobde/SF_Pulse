@@ -772,15 +772,25 @@ function formatTime(t) {
 
 // ── Update counts ─────────────────────────────────────
 function updateCounts(counts) {
-  const map = {
-    crime: ['cnt-crime', 'fc-crime'],
-    '311': ['cnt-311',   'fc-311'],
-    permit: ['cnt-permit','fc-permit'],
-    inspection: ['cnt-inspect','fc-inspect'],
-    transit: ['cnt-transit','fc-transit'],
+  // Handle both capitalized and lowercase keys from Python
+  const get = (keys) => {
+    for (const k of keys) {
+      if (counts[k] !== undefined) return counts[k];
+    }
+    return 0;
   };
-  Object.entries(map).forEach(([key, [headId, filterId]]) => {
-    const v = counts[key] ?? counts[key.charAt(0).toUpperCase() + key.slice(1)] ?? 0;
+
+  document.getElementById('cnt-crime').textContent   = get(['Crime',  'crime']);
+  document.getElementById('cnt-311').textContent     = get(['311']);
+  document.getElementById('cnt-permit').textContent  = get(['Permits','permit']);
+  document.getElementById('cnt-inspect').textContent = get(['Inspections','inspection']);
+  document.getElementById('cnt-transit').textContent = get(['Transit','transit']);
+
+  document.getElementById('fc-crime').textContent    = get(['Crime',  'crime']);
+  document.getElementById('fc-311').textContent      = get(['311']);
+  document.getElementById('fc-permit').textContent   = get(['Permits','permit']);
+  document.getElementById('fc-inspect').textContent  = get(['Inspections','inspection']);
+  document.getElementById('fc-transit').textContent  = get(['Transit','transit']);
 }
 
 // ── Load data ─────────────────────────────────────────
